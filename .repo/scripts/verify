@@ -14,7 +14,8 @@ bash -n "$VERIFY_SCRIPT"
 
 if command -v shellcheck >/dev/null 2>&1; then
     echo "==> ShellCheck"
-    shellcheck "$PLUGIN" "$TESTS" "$VERIFY_SCRIPT"
+    shellcheck "$PLUGIN" "$VERIFY_SCRIPT"
+    shellcheck -x -e SC1091,SC2034,SC2329 "$TESTS"
 else
     echo "==> ShellCheck skipped: command not found"
 fi

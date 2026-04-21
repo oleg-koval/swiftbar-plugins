@@ -628,7 +628,7 @@ EOF
 }
 
 main() {
-    # shellcheck source=/Users/olegkoval/projects/personal/active/swiftbar-plugins/system-monitor.5s.sh
+    # shellcheck source=../system-monitor.5s.sh
     source "$PLUGIN_SCRIPT"
 
     test_menu_title_animates_when_healthy
