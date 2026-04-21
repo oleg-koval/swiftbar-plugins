@@ -12,7 +12,23 @@ Open-source SwiftBar plugin for real macOS incident triage. It keeps CPU, memory
 
 Project site: [oleg-koval.github.io/swiftbar-plugins](https://oleg-koval.github.io/swiftbar-plugins/)
 
-![SwiftBar System Monitor preview](./site/assets/system-monitor-preview.svg)
+Sample output:
+
+```text
+System Monitor
+---
+Triage
+--Status: Critical - Busy app using too much CPU
+--Likely cause: Cursor Helper is now top CPU at 126.8%
+--Next step: Open Activity Monitor
+--How alerts work: CPU > 90%, load warning >= 6
+--Recent activity
+----1m critical load 10.21 CPU tsserver 110.5%
+----5m critical load 5.46 CPU mds_stores 91.4%
+Actions
+--Copy Incident Report
+--Update from GitHub
+```
 
 ## Why
 
