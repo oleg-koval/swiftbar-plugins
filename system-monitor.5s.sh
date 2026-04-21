@@ -245,18 +245,19 @@ normalize_git_remote_url() {
 }
 
 official_checkout_dir() {
-    local origin_url normalized_origin
+    local checkout_dir origin_url normalized_origin
 
-    [ -d "$PLUGIN_DIR/.git" ] || return 1
     command_exists git || return 1
+    checkout_dir="$(git -C "$PLUGIN_DIR" rev-parse --show-toplevel 2>/dev/null || true)"
+    [ -n "$checkout_dir" ] || return 1
 
-    origin_url="$(git -C "$PLUGIN_DIR" remote get-url origin 2>/dev/null || true)"
+    origin_url="$(git -C "$checkout_dir" remote get-url origin 2>/dev/null || true)"
     [ -n "$origin_url" ] || return 1
 
     normalized_origin="$(normalize_git_remote_url "$origin_url")"
     [ "$normalized_origin" = "$REPO_URL" ] || return 1
 
-    printf '%s' "$PLUGIN_DIR"
+    printf '%s' "$checkout_dir"
 }
 
 plugin_update_url() {

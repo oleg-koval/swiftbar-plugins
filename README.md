@@ -49,20 +49,25 @@ brew install swiftbar
 Install the plugin:
 
 1. Clone this repository, or download `system-monitor.5s.sh` from the latest release.
-2. Put the file, or the whole repository, in your SwiftBar plugin folder.
-3. Make the plugin executable:
+2. If you cloned the repo, set SwiftBar's plugin folder to [`swiftbar/`](/Users/olegkoval/projects/personal/active/swiftbar-plugins/swiftbar), not the repo root.
+3. If you downloaded only the script, drop `system-monitor.5s.sh` into your existing SwiftBar plugin folder.
+4. Make the plugin executable if needed:
 
 ```sh
 chmod +x system-monitor.5s.sh
 ```
 
-4. Refresh SwiftBar:
+5. Refresh SwiftBar:
 
 ```sh
 open -g "swiftbar://refreshplugin?plugin=system-monitor.5s.sh"
 ```
 
-This repository is safe to use directly as the SwiftBar plugin folder because `.swiftbarignore` excludes docs, CI, site files, tests, and helper scripts.
+Why the `swiftbar/` subfolder:
+
+- SwiftBar scans plugin folders recursively and the folder picker warns on large working trees.
+- A development checkout often contains `node_modules`, build output, and docs that make the repo root noisy.
+- The [`swiftbar/`](/Users/olegkoval/projects/personal/active/swiftbar-plugins/swiftbar) folder contains only the plugin entrypoint, while self-update still targets the real repository checkout.
 
 ## Update Path
 
@@ -70,7 +75,7 @@ Use `Actions > About > Update from GitHub`.
 
 The plugin supports two installation modes:
 
-- official checkout: runs `git pull --ff-only`
+- official checkout or repo subfolder install: runs `git pull --ff-only`
 - copied plugin file: downloads the latest `system-monitor.5s.sh` from GitHub and replaces the local file
 
 The update runs in the background and reports result status in the menu plus a macOS notification.
@@ -166,6 +171,7 @@ This repository intentionally follows the SwiftBar plugin conventions:
 - xbar metadata is embedded in the script header
 - plugin output uses a header/body split via `---`
 - menu actions use `bash="..."` with `terminal=false` for non-interactive background work
+- the install-facing [`swiftbar/`](/Users/olegkoval/projects/personal/active/swiftbar-plugins/swiftbar) folder stays small even when the repo checkout contains development tooling
 - helper files stay out of SwiftBar import paths through `.swiftbarignore`
 
 Implementation notes live in [docs/plugin-development.md](./docs/plugin-development.md).

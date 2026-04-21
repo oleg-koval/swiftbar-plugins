@@ -15,8 +15,10 @@ CODE_OF_CONDUCT.md
 SECURITY.md
 LICENSE
 docs
+node_modules
 scripts
 site
+swiftbar
 dist
 tests
 pipeline-status.1m.py

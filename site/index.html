@@ -154,10 +154,10 @@
           </article>
 
           <article class="feature-card">
-            <h3>Repo-as-plugin support</h3>
+            <h3>Dedicated install folder</h3>
             <p>
-              The repository can live directly in a SwiftBar plugin folder without SwiftBar
-              trying to execute docs, workflows, tests, or site files.
+              A checkout-friendly <code>swiftbar/</code> folder keeps SwiftBar away from dev
+              files like <code>node_modules</code> while self-update still targets the repo.
             </p>
           </article>
         </div>
@@ -174,8 +174,8 @@
             <h3>Repository checkout</h3>
             <ol>
               <li>Clone the repository into a stable folder.</li>
-              <li>Point SwiftBar at that folder.</li>
-              <li>Run `chmod +x system-monitor.5s.sh` once.</li>
+              <li>Point SwiftBar at the repo's <code>swiftbar/</code> subfolder.</li>
+              <li>If needed, run <code>chmod +x system-monitor.5s.sh</code> once.</li>
               <li>Use the in-menu updater for future releases.</li>
             </ol>
           </article>

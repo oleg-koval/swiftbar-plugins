@@ -62,15 +62,15 @@ This repository already uses those patterns for:
 - local incident reporting
 - process management and other disruptive actions
 
-## Repo Safety as a Plugin Folder
+## Install Folder Strategy
 
-SwiftBar will scan the plugin folder aggressively. To keep the whole repository safe as a plugin folder:
+SwiftBar scans plugin folders aggressively and traverses nested folders. This repository uses a dedicated install-facing folder:
 
-- helper files live outside the executable plugin
-- `.swiftbarignore` excludes docs, tests, workflows, site files, and tooling
-- helper scripts remain non-executable unless they are meant to run directly
+- [`swiftbar/`](../swiftbar) contains the plugin entrypoint that SwiftBar should load
+- the symlink points back to [`system-monitor.5s.sh`](../system-monitor.5s.sh) so development still happens in one file
+- `official_checkout_dir()` resolves the git top-level from subfolders, so self-update still works from the `swiftbar/` install path
 
-If you add a new top-level file or directory, update `.swiftbarignore` in the same change.
+The repo root still carries `.swiftbarignore` for defense in depth, but the recommended SwiftBar plugin folder is [`swiftbar/`](../swiftbar), not the repository root.
 
 ## Submission Guidance
 

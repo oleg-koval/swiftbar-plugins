@@ -41,6 +41,18 @@ assert_not_contains() {
     esac
 }
 
+assert_equals() {
+    local actual="$1"
+    local expected="$2"
+    local context="${3:-value}"
+
+    if [ "$actual" != "$expected" ]; then
+        printf 'Expected %s:\n%s\n' "$context" "$expected" >&2
+        printf 'Actual %s:\n%s\n' "$context" "$actual" >&2
+        exit 1
+    fi
+}
+
 assert_file_contains() {
     local file="$1"
     local needle="$2"
@@ -165,6 +177,23 @@ test_hardware_name_uses_cached_command() {
     assert_contains "$output" "MacBook Pro" "hardware name"
     assert_contains "$cached_args" "hardware" "hardware cache command"
     rm -f "$args_file"
+}
+
+test_official_checkout_dir_detects_repo_root_from_subfolder() {
+    local tmpdir output
+    tmpdir="$(mktemp -d "${TMPDIR:-/tmp}/swiftbar-checkout-root.XXXXXX")"
+    trap 'if [ -n "${tmpdir:-}" ]; then rm -rf "$tmpdir"; fi' RETURN
+
+    git -C "$tmpdir" init -q
+    git -C "$tmpdir" remote add origin "https://github.com/oleg-koval/swiftbar-plugins.git"
+    mkdir -p "$tmpdir/swiftbar"
+
+    PLUGIN_DIR="$tmpdir/swiftbar"
+    output="$(official_checkout_dir)"
+
+    assert_equals "$output" "$tmpdir" "checkout root"
+    rm -rf "$tmpdir"
+    trap - RETURN
 }
 
 test_remote_plugin_version_uses_cached_command() {
@@ -566,12 +595,13 @@ EOF
 }
 
 test_update_plugin_from_github_uses_git_pull_for_official_checkout() {
-    local tmpdir bindir fixture current_script git_log output old_plugin_path old_plugin_dir old_path old_data_dir
+    local tmpdir bindir fixture current_script plugin_link git_log output old_plugin_path old_plugin_dir old_path old_data_dir
     tmpdir="$(mktemp -d "${TMPDIR:-/tmp}/swiftbar-plugin-update.XXXXXX")"
     bindir="$tmpdir/bin"
-    mkdir -p "$bindir" "$tmpdir/.git"
+    mkdir -p "$bindir" "$tmpdir/.git" "$tmpdir/swiftbar"
     fixture="$tmpdir/system-monitor.5s.sh.fixture"
     current_script="$tmpdir/system-monitor.5s.sh"
+    plugin_link="$tmpdir/swiftbar/system-monitor.5s.sh"
     git_log="$tmpdir/git.log"
 
     cat >"$fixture" <<'EOF'
@@ -585,10 +615,15 @@ EOF
 PLUGIN_VERSION="1.0.0"
 EOF
     chmod +x "$current_script"
+    ln -s ../system-monitor.5s.sh "$plugin_link"
 
     cat >"$bindir/git" <<'EOF'
 #!/usr/bin/env bash
 printf '%s\n' "$*" >>"$TEST_GIT_LOG"
+if [ "$1" = "-C" ] && [ "$3" = "rev-parse" ] && [ "$4" = "--show-toplevel" ]; then
+    printf '%s\n' "$TEST_GIT_TOPLEVEL"
+    exit 0
+fi
 if [ "$1" = "-C" ] && [ "$3" = "remote" ] && [ "$4" = "get-url" ] && [ "$5" = "origin" ]; then
     printf 'git@github.com:oleg-koval/swiftbar-plugins.git\n'
     exit 0
@@ -605,13 +640,14 @@ EOF
     old_plugin_dir="$PLUGIN_DIR"
     old_path="$PATH"
     old_data_dir="$DATA_DIR"
-    PLUGIN_PATH="$current_script"
-    PLUGIN_DIR="$tmpdir"
+    PLUGIN_PATH="$plugin_link"
+    PLUGIN_DIR="$tmpdir/swiftbar"
     DATA_DIR="$tmpdir/data"
     PATH="$bindir:$PATH"
     export TEST_UPDATE_FIXTURE="$fixture"
     export TEST_GIT_LOG="$git_log"
     export TEST_PLUGIN_TARGET="$current_script"
+    export TEST_GIT_TOPLEVEL="$tmpdir"
 
     output="$(update_plugin_from_github)"
 

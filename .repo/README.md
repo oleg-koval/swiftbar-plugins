@@ -29,9 +29,9 @@ brew install swiftbar
 
 ## Installation
 
-You can either point SwiftBar at this folder directly or copy `system-monitor.5s.sh` into an existing SwiftBar plugin folder. This repo includes `.swiftbarignore` so SwiftBar ignores docs, CI, and helper scripts when the repo root is used as the plugin folder.
+Point SwiftBar at [`swiftbar/`](/Users/olegkoval/projects/personal/active/swiftbar-plugins/swiftbar) for a repo checkout, or copy `system-monitor.5s.sh` into an existing SwiftBar plugin folder. The repo root still includes `.swiftbarignore`, but the subfolder install path avoids SwiftBar's large-folder warning when development files are present.
 
-1. Put this folder somewhere stable, or copy `system-monitor.5s.sh` into your SwiftBar plugin folder.
+1. Put this folder somewhere stable, then point SwiftBar at [`swiftbar/`](/Users/olegkoval/projects/personal/active/swiftbar-plugins/swiftbar), or copy `system-monitor.5s.sh` into your existing SwiftBar plugin folder.
 2. Make it executable:
 
    ```sh
@@ -58,7 +58,7 @@ Use `Actions > About > Update from GitHub`.
 - `Update: Updated to vX.Y.Z from GitHub` after a recent successful update.
 - `Update: ...` failure details after a recent failed update.
 
-- If SwiftBar is pointed at an official checkout of `@oleg-koval/swiftbar-plugins`, the plugin runs `git pull --ff-only`.
+- If SwiftBar is pointed at [`swiftbar/`](/Users/olegkoval/projects/personal/active/swiftbar-plugins/swiftbar) inside an official checkout of `@oleg-koval/swiftbar-plugins`, the plugin still runs `git pull --ff-only`.
 - If you copied only `system-monitor.5s.sh` into another plugin folder, the plugin downloads the latest `system-monitor.5s.sh` from the GitHub repository and replaces the local file.
 
 The update action returns immediately. The actual update runs in the background, refreshes the plugin when finished, and shows a macOS notification for success or failure.
