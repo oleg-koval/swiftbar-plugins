@@ -493,7 +493,7 @@ test_queue_background_update_writes_pending_status() {
 
     queue_background_update_from_github
 
-    assert_file_contains "$(plugin_update_status_file)" $'pending\t1.2.3\tUpdating from GitHub in the background...' "pending update status"
+    assert_file_contains "$(plugin_update_status_file)" $'pending\t'"$PLUGIN_VERSION"$'\tUpdating from GitHub in the background...' "pending update status"
     assert_file_contains "$nohup_log" "$tmpdir/system-monitor.5s.sh perform-update-from-github" "queued update command"
     assert_file_contains "$refresh_log" "refresh" "queued update refresh"
 
