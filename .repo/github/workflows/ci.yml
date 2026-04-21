@@ -1,0 +1,16 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  verify:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install ShellCheck
+        run: brew install shellcheck
+      - name: Verify plugin
+        run: bash .repo/scripts/verify

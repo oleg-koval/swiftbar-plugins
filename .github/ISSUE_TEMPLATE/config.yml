@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Documentation
+    url: https://oleg-koval.github.io/swiftbar-plugins/
+    about: Check install, configuration, and release docs first.
+  - name: Plugin development notes
+    url: https://github.com/oleg-koval/swiftbar-plugins/blob/main/docs/plugin-development.md
+    about: Read the SwiftBar-specific development rules before proposing plugin structure changes.

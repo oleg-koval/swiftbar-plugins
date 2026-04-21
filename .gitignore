@@ -1,0 +1,17 @@
+.DS_Store
+*.swp
+*.swo
+*.tmp
+__pycache__/
+*.pyc
+node_modules/
+dist/
+.playwright-cli/
+
+# Local SwiftBar/runtime output
+.swiftbar-cache/
+tmp/
+*.log
+
+# Keep the public package focused on the system monitor plugin.
+pipeline-status.1m.py

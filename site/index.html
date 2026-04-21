@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SwiftBar System Monitor</title>
+    <meta
+      name="description"
+      content="Open-source SwiftBar plugin for macOS incident triage, health signals, and menu bar operations."
+    />
+    <meta name="theme-color" content="#f5efe5" />
+    <meta property="og:title" content="SwiftBar System Monitor" />
+    <meta
+      property="og:description"
+      content="A real menu bar incident console for macOS: triage, Flight Recorder, safe actions, and GitHub-backed updates."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="{{SITE_URL}}" />
+    <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="page-glow" aria-hidden="true"></div>
+
+    <header class="topbar">
+      <a class="brand" href="#top">
+        <span class="brand__dot"></span>
+        <span>SwiftBar System Monitor</span>
+      </a>
+      <nav class="topbar__nav" aria-label="Primary">
+        <a href="#features">Features</a>
+        <a href="#install">Install</a>
+        <a href="#oss">OSS</a>
+        <a href="{{REPO_URL}}">GitHub</a>
+      </nav>
+    </header>
+
+    <main id="top">
+      <section class="hero section">
+        <div class="hero__content">
+          <p class="eyebrow">Menu Bar Incident Console</p>
+          <h1>Real-time macOS triage without leaving the menu bar.</h1>
+          <p class="lead">
+            SwiftBar System Monitor turns raw system signals into operator context:
+            status, likely cause, next step, recent change history, and safe actions.
+          </p>
+
+          <div class="hero__meta">
+            <span class="pill">Current script: v{{PLUGIN_VERSION}}</span>
+            <span class="pill">SwiftBar-native metadata</span>
+            <span class="pill">Semantic releases</span>
+          </div>
+
+          <div class="hero__actions">
+            <a class="button button--primary" href="{{RELEASES_URL}}">Download release</a>
+            <a class="button button--secondary" href="{{REPO_URL}}">View repository</a>
+            <button
+              class="button button--ghost"
+              type="button"
+              data-copy="brew install swiftbar"
+            >
+              Copy SwiftBar install
+            </button>
+          </div>
+
+          <div class="hero__signal">
+            <span class="signal-dot"></span>
+            <span>Built for people who want the answer, not just the number.</span>
+          </div>
+        </div>
+
+        <aside class="hero__panel" aria-label="Plugin preview">
+          <div class="console">
+            <div class="console__bar">
+              <span>System Monitor</span>
+              <span class="console__version">v{{PLUGIN_VERSION}}</span>
+            </div>
+            <div class="console__screen">
+              <div class="console__header">
+                <span class="status-chip status-chip--critical">Status: Critical</span>
+                <span class="status-chip status-chip--warm">Cause: Busy app</span>
+              </div>
+
+              <div class="console__block">
+                <p class="console__label">Triage</p>
+                <ul class="console__list">
+                  <li>Likely cause: Cursor Helper is now top CPU at 126.8%</li>
+                  <li>Next step: Open Activity Monitor</li>
+                  <li>How alerts work: CPU &gt; 90%, load warning &gt;= 6</li>
+                </ul>
+              </div>
+
+              <div class="console__block">
+                <p class="console__label">Recent activity</p>
+                <ul class="console__list console__list--mono">
+                  <li>now  critical  load 10.62  CPU Cursor Helper 126.8%</li>
+                  <li>1m   critical  load 10.21  CPU tsserver 110.5%</li>
+                  <li>5m   critical  load 5.46   CPU mds_stores 91.4%</li>
+                  <li>15m  critical  load 3.67   CPU mds_stores 97.3%</li>
+                </ul>
+              </div>
+
+              <div class="console__footer">
+                <span>Background updater</span>
+                <span>GitHub check</span>
+                <span>Flight Recorder</span>
+              </div>
+            </div>
+          </div>
+        </aside>
+      </section>
+
+      <section class="ticker" aria-label="Project capabilities">
+        <div class="ticker__track">
+          <span>Flight Recorder</span>
+          <span>Busy app triage</span>
+          <span>Background GitHub updater</span>
+          <span>SwiftBar-safe repo layout</span>
+          <span>Semantic releases</span>
+          <span>GitHub Pages docs</span>
+          <span>Conventional Commits</span>
+        </div>
+      </section>
+
+      <section id="features" class="section">
+        <div class="section-heading">
+          <p class="eyebrow">What Makes It Different</p>
+          <h2>It answers "why is my Mac slow?" instead of just charting load.</h2>
+        </div>
+
+        <div class="feature-grid">
+          <article class="feature-card">
+            <h3>Opinionated triage</h3>
+            <p>
+              The top of the menu collapses health, likely cause, next action, and alert
+              thresholds into one readable operator block.
+            </p>
+          </article>
+
+          <article class="feature-card">
+            <h3>Flight Recorder</h3>
+            <p>
+              A rolling local history compares now vs 1m, 5m, and 15m ago so the plugin
+              can explain what changed before the slowdown.
+            </p>
+          </article>
+
+          <article class="feature-card">
+            <h3>Safe action boundaries</h3>
+            <p>
+              Routine actions stay one click away. Disruptive actions are grouped and
+              labeled so contributors do not bury risk in normal menu flows.
+            </p>
+          </article>
+
+          <article class="feature-card">
+            <h3>Repo-as-plugin support</h3>
+            <p>
+              The repository can live directly in a SwiftBar plugin folder without SwiftBar
+              trying to execute docs, workflows, tests, or site files.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section id="install" class="section section--contrast">
+        <div class="section-heading">
+          <p class="eyebrow">Install</p>
+          <h2>Two supported paths. Same updater.</h2>
+        </div>
+
+        <div class="install-grid">
+          <article class="install-card">
+            <h3>Repository checkout</h3>
+            <ol>
+              <li>Clone the repository into a stable folder.</li>
+              <li>Point SwiftBar at that folder.</li>
+              <li>Run `chmod +x system-monitor.5s.sh` once.</li>
+              <li>Use the in-menu updater for future releases.</li>
+            </ol>
+          </article>
+
+          <article class="install-card">
+            <h3>Single plugin file</h3>
+            <ol>
+              <li>Download `system-monitor.5s.sh` from the latest release.</li>
+              <li>Drop it into an existing SwiftBar plugin folder.</li>
+              <li>Mark it executable.</li>
+              <li>The same updater replaces the local file in place.</li>
+            </ol>
+          </article>
+        </div>
+
+        <div class="command-panel">
+          <div class="command-panel__header">
+            <span>Quick start</span>
+            <button
+              class="button button--ghost button--small"
+              type="button"
+              data-copy="brew install swiftbar && chmod +x system-monitor.5s.sh"
+            >
+              Copy command
+            </button>
+          </div>
+          <pre><code>brew install swiftbar
+chmod +x system-monitor.5s.sh
+open -g "swiftbar://refreshplugin?plugin=system-monitor.5s.sh"</code></pre>
+        </div>
+      </section>
+
+      <section id="oss" class="section">
+        <div class="section-heading">
+          <p class="eyebrow">Open-Source Standards</p>
+          <h2>The repository is shaped to be maintainable, releasable, and easy to review.</h2>
+        </div>
+
+        <div class="oss-grid">
+          <article class="oss-card">
+            <h3>Release automation</h3>
+            <p>
+              Conventional Commits feed `semantic-release`, which updates the changelog,
+              syncs the plugin version, tags releases, and publishes a GitHub release asset.
+            </p>
+            <a href="{{RELEASES_URL}}">View releases</a>
+          </article>
+
+          <article class="oss-card">
+            <h3>CI that matches runtime reality</h3>
+            <p>
+              Plugin validation runs on macOS, while the static site is built separately on
+              Linux. The release pipeline re-validates before publishing.
+            </p>
+            <a href="{{REPO_URL}}/actions">View workflows</a>
+          </article>
+
+          <article class="oss-card">
+            <h3>Contributor ergonomics</h3>
+            <p>
+              Issue forms, PR template, security policy, CODEOWNERS, Dependabot, commit
+              linting, and semantic PR title checks are all wired in.
+            </p>
+            <a href="{{REPO_URL}}/blob/main/CONTRIBUTING.md">Read contributing guide</a>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div>
+        <p class="footer__title">SwiftBar System Monitor</p>
+        <p class="footer__copy">
+          Menu bar health, causality, and action for macOS operators.
+        </p>
+      </div>
+      <div class="footer__links">
+        <a href="{{REPO_URL}}">GitHub</a>
+        <a href="{{REPO_URL}}/blob/main/docs/plugin-development.md">Plugin docs</a>
+        <a href="{{REPO_URL}}/blob/main/docs/releasing.md">Release docs</a>
+        <a href="{{RAW_PLUGIN_URL}}">Raw plugin</a>
+      </div>
+      <p class="footer__meta">MIT License - {{YEAR}}</p>
+    </footer>
+
+    <script src="./app.js"></script>
+  </body>
+</html>

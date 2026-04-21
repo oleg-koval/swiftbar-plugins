@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 960" role="img" aria-label="SwiftBar System Monitor preview">
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#fbf6ef" />
+      <stop offset="100%" stop-color="#efe5d7" />
+    </linearGradient>
+    <linearGradient id="panel" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0%" stop-color="#fffaf2" stop-opacity="0.98" />
+      <stop offset="100%" stop-color="#f7efe2" stop-opacity="0.96" />
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="24" stdDeviation="34" flood-color="#101828" flood-opacity="0.18" />
+    </filter>
+  </defs>
+
+  <rect width="1600" height="960" fill="url(#bg)" />
+  <circle cx="180" cy="120" r="240" fill="#dcefdc" opacity="0.7" />
+  <circle cx="1420" cy="140" r="220" fill="#f2d8bd" opacity="0.7" />
+
+  <g opacity="0.08" stroke="#101828">
+    <path d="M0 110h1600" />
+    <path d="M0 220h1600" />
+    <path d="M0 330h1600" />
+    <path d="M0 440h1600" />
+    <path d="M0 550h1600" />
+    <path d="M0 660h1600" />
+    <path d="M0 770h1600" />
+    <path d="M0 880h1600" />
+    <path d="M200 0v960" />
+    <path d="M400 0v960" />
+    <path d="M600 0v960" />
+    <path d="M800 0v960" />
+    <path d="M1000 0v960" />
+    <path d="M1200 0v960" />
+    <path d="M1400 0v960" />
+  </g>
+
+  <g transform="translate(110 118)">
+    <text x="0" y="0" fill="#0f1720" font-family="Sora, Arial, sans-serif" font-size="34" font-weight="700" letter-spacing="8">MENU BAR INCIDENT CONSOLE</text>
+    <text x="0" y="120" fill="#0f1720" font-family="Sora, Arial, sans-serif" font-size="104" font-weight="800">SwiftBar</text>
+    <text x="0" y="235" fill="#0f1720" font-family="Sora, Arial, sans-serif" font-size="104" font-weight="800">System Monitor</text>
+    <text x="0" y="320" fill="#52606d" font-family="Sora, Arial, sans-serif" font-size="34">Status, likely cause, recent activity, and safe actions.</text>
+
+    <g transform="translate(0 408)">
+      <rect width="220" height="62" rx="31" fill="#101828" />
+      <text x="110" y="39" fill="#fffaf2" font-family="Sora, Arial, sans-serif" font-size="24" font-weight="700" text-anchor="middle">Latest release</text>
+    </g>
+
+    <g transform="translate(246 408)">
+      <rect width="252" height="62" rx="31" fill="none" stroke="#101828" stroke-opacity="0.18" stroke-width="2" />
+      <text x="126" y="39" fill="#0f1720" font-family="Sora, Arial, sans-serif" font-size="24" font-weight="700" text-anchor="middle">GitHub Pages docs</text>
+    </g>
+  </g>
+
+  <g transform="translate(900 94)" filter="url(#shadow)">
+    <rect width="560" height="744" rx="36" fill="url(#panel)" stroke="#101828" stroke-opacity="0.12" />
+    <rect width="560" height="86" rx="36" fill="#fffdf8" stroke="#101828" stroke-opacity="0.08" />
+    <circle cx="42" cy="43" r="12" fill="#157f3b" />
+    <text x="72" y="52" fill="#0f1720" font-family="Sora, Arial, sans-serif" font-size="28" font-weight="700">System Monitor</text>
+    <text x="500" y="52" fill="#52606d" font-family="IBM Plex Mono, monospace" font-size="20" text-anchor="end">v1.2.3</text>
+
+    <g transform="translate(28 120)">
+      <rect width="504" height="78" rx="22" fill="#ffffff" fill-opacity="0.78" stroke="#101828" stroke-opacity="0.08" />
+      <rect x="18" y="18" width="170" height="40" rx="20" fill="#fff1ef" />
+      <text x="103" y="45" fill="#b42318" font-family="Sora, Arial, sans-serif" font-size="21" font-weight="700" text-anchor="middle">Status: Critical</text>
+      <rect x="200" y="18" width="146" height="40" rx="20" fill="#fff4eb" />
+      <text x="273" y="45" fill="#b54708" font-family="Sora, Arial, sans-serif" font-size="21" font-weight="700" text-anchor="middle">Cause: Busy app</text>
+    </g>
+
+    <g transform="translate(28 226)">
+      <rect width="504" height="164" rx="24" fill="#ffffff" fill-opacity="0.7" stroke="#101828" stroke-opacity="0.08" />
+      <text x="24" y="34" fill="#0f5e2c" font-family="Sora, Arial, sans-serif" font-size="18" font-weight="800" letter-spacing="3">TRIAGE</text>
+      <text x="24" y="72" fill="#52606d" font-family="Sora, Arial, sans-serif" font-size="24">Likely cause: Cursor Helper is now top CPU at 126.8%</text>
+      <text x="24" y="112" fill="#52606d" font-family="Sora, Arial, sans-serif" font-size="24">Next step: Open Activity Monitor</text>
+      <text x="24" y="152" fill="#52606d" font-family="Sora, Arial, sans-serif" font-size="24">How alerts work: CPU &gt; 90%, load warning &gt;= 6</text>
+    </g>
+
+    <g transform="translate(28 418)">
+      <rect width="504" height="232" rx="24" fill="#ffffff" fill-opacity="0.7" stroke="#101828" stroke-opacity="0.08" />
+      <text x="24" y="34" fill="#0f5e2c" font-family="Sora, Arial, sans-serif" font-size="18" font-weight="800" letter-spacing="3">RECENT ACTIVITY</text>
+      <text x="24" y="76" fill="#52606d" font-family="IBM Plex Mono, monospace" font-size="21">now  critical  load 10.62  CPU Cursor Helper 126.8%</text>
+      <text x="24" y="116" fill="#52606d" font-family="IBM Plex Mono, monospace" font-size="21">1m   critical  load 10.21  CPU tsserver 110.5%</text>
+      <text x="24" y="156" fill="#52606d" font-family="IBM Plex Mono, monospace" font-size="21">5m   critical  load 5.46   CPU mds_stores 91.4%</text>
+      <text x="24" y="196" fill="#52606d" font-family="IBM Plex Mono, monospace" font-size="21">15m  critical  load 3.67   CPU mds_stores 97.3%</text>
+    </g>
+
+    <g transform="translate(28 674)">
+      <rect width="146" height="42" rx="21" fill="#edf7ef" />
+      <text x="73" y="28" fill="#0f5e2c" font-family="Sora, Arial, sans-serif" font-size="18" font-weight="700" text-anchor="middle">Updater</text>
+      <rect x="178" width="146" height="42" rx="21" fill="#f5f2ea" />
+      <text x="251" y="28" fill="#52606d" font-family="Sora, Arial, sans-serif" font-size="18" font-weight="700" text-anchor="middle">GitHub check</text>
+      <rect x="328" width="176" height="42" rx="21" fill="#edf7ef" />
+      <text x="416" y="28" fill="#0f5e2c" font-family="Sora, Arial, sans-serif" font-size="18" font-weight="700" text-anchor="middle">Flight Recorder</text>
+    </g>
+  </g>
+</svg>

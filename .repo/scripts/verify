@@ -1,0 +1,38 @@
+#!/bin/bash
+set -euo pipefail
+
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+PLUGIN="$ROOT_DIR/system-monitor.5s.sh"
+TESTS="$ROOT_DIR/tests/system-monitor.test.sh"
+VERIFY_SCRIPT="$ROOT_DIR/.repo/scripts/verify"
+OUTPUT_FILE="${TMPDIR:-/tmp}/swiftbar-system-monitor.verify.out"
+
+echo "==> Bash syntax"
+bash -n "$PLUGIN"
+bash -n "$TESTS"
+bash -n "$VERIFY_SCRIPT"
+
+if command -v shellcheck >/dev/null 2>&1; then
+    echo "==> ShellCheck"
+    shellcheck "$PLUGIN" "$TESTS" "$VERIFY_SCRIPT"
+else
+    echo "==> ShellCheck skipped: command not found"
+fi
+
+echo "==> Smoke output"
+"$PLUGIN" >"$OUTPUT_FILE"
+
+if [ ! -s "$OUTPUT_FILE" ]; then
+    echo "Plugin produced no output" >&2
+    exit 1
+fi
+
+if ! grep -q -- "---" "$OUTPUT_FILE"; then
+    echo "Plugin output is missing SwiftBar body separator" >&2
+    exit 1
+fi
+
+echo "Wrote smoke output to $OUTPUT_FILE"
+
+echo "==> Shell tests"
+bash "$TESTS"

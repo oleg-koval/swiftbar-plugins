@@ -1,0 +1,30 @@
+name: Feature request
+description: Propose a user-facing improvement or plugin capability.
+title: "feat: "
+labels:
+  - enhancement
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem to solve
+      description: What user problem or workflow gap does this address?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+      description: Describe the feature, menu flow, or release behavior you want.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Existing workarounds or adjacent ideas.
+  - type: textarea
+    id: context
+    attributes:
+      label: Extra context
+      description: Screenshots, examples, or prior art.

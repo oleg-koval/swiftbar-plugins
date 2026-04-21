@@ -1,0 +1,69 @@
+name: Bug report
+description: Report a reproducible problem in the plugin, release flow, or documentation.
+title: "fix: "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for filing a bug. Please include exact versions and a minimal reproduction.
+  - type: input
+    id: plugin-version
+    attributes:
+      label: Plugin version
+      description: Use `Actions > About` or `./system-monitor.5s.sh --version`
+      placeholder: 1.2.3
+    validations:
+      required: true
+  - type: input
+    id: swiftbar-version
+    attributes:
+      label: SwiftBar version
+      placeholder: 2.0.1
+    validations:
+      required: true
+  - type: input
+    id: macos-version
+    attributes:
+      label: macOS version
+      placeholder: macOS 15.4
+    validations:
+      required: true
+  - type: dropdown
+    id: install-mode
+    attributes:
+      label: Install mode
+      options:
+        - Official repository checkout
+        - Copied single plugin file
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Open SwiftBar
+        2. Click...
+        3. Observe...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant output, screenshots, or diagnostics
+      description: Redact tokens, hostnames, and local machine details as needed.

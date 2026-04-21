@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="SwiftBar System Monitor">
+  <rect width="128" height="128" rx="28" fill="#f5efe5" />
+  <rect x="18" y="18" width="92" height="92" rx="22" fill="#0f1720" />
+  <circle cx="44" cy="44" r="10" fill="#157f3b" />
+  <path d="M38 78h52" stroke="#f5efe5" stroke-linecap="round" stroke-width="10" />
+  <path d="M64 38v52" stroke="#f5efe5" stroke-linecap="round" stroke-width="10" />
+</svg>
