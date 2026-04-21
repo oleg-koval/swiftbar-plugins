@@ -1,3 +1,9 @@
+## [1.2.4](https://github.com/oleg-koval/swiftbar-plugins/compare/v1.2.3...v1.2.4) (2026-04-21)
+
+### Bug Fixes
+
+* **install:** add dedicated SwiftBar folder ([78351c5](https://github.com/oleg-koval/swiftbar-plugins/commit/78351c5e7ee77233b39fe60b849946bede75f91c))
+
 # Changelog
 
 All notable changes to this project will be documented in this file.
