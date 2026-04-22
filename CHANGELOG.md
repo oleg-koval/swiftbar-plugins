@@ -1,3 +1,9 @@
+## [1.3.0](https://github.com/oleg-koval/swiftbar-plugins/compare/v1.2.6...v1.3.0) (2026-04-22)
+
+### Features
+
+* **menu:** add advanced process actions ([0745c3e](https://github.com/oleg-koval/swiftbar-plugins/commit/0745c3e8e4629398f735fc0ffb5dff3812d19517))
+
 ## [1.2.6](https://github.com/oleg-koval/swiftbar-plugins/compare/v1.2.5...v1.2.6) (2026-04-22)
 
 ### Bug Fixes
