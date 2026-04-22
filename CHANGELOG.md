@@ -1,3 +1,9 @@
+## [1.2.6](https://github.com/oleg-koval/swiftbar-plugins/compare/v1.2.5...v1.2.6) (2026-04-22)
+
+### Bug Fixes
+
+* **menu:** move updater into about ([712fda8](https://github.com/oleg-koval/swiftbar-plugins/commit/712fda82dae44bf8f71ebb34a376f9030afd34c6))
+
 ## [1.2.5](https://github.com/oleg-koval/swiftbar-plugins/compare/v1.2.4...v1.2.5) (2026-04-22)
 
 ### Bug Fixes
