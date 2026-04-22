@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # <xbar.title>System Monitor</xbar.title>
-# <xbar.version>v1.2.4</xbar.version>
+# <xbar.version>v1.2.5</xbar.version>
 # <xbar.author>Oleg Koval</xbar.author>
 # <xbar.author.github>oleg-koval</xbar.author.github>
 # <xbar.desc>Power-user macOS health dashboard for SwiftBar.</xbar.desc>
@@ -24,7 +24,7 @@
 
 set -u
 
-PLUGIN_VERSION="1.2.4"
+PLUGIN_VERSION="1.2.5"
 AUTHOR_GITHUB="oleg-koval"
 REPO_NAME="swiftbar-plugins"
 REPO_DEFAULT_BRANCH="main"

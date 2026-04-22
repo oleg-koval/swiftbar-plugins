@@ -1,3 +1,9 @@
+## [1.2.5](https://github.com/oleg-koval/swiftbar-plugins/compare/v1.2.4...v1.2.5) (2026-04-22)
+
+### Bug Fixes
+
+* **install:** ship standalone SwiftBar entrypoint ([61f5caa](https://github.com/oleg-koval/swiftbar-plugins/commit/61f5caaa6972da9d45a0af792e397fce9869c13a))
+
 ## [1.2.4](https://github.com/oleg-koval/swiftbar-plugins/compare/v1.2.3...v1.2.4) (2026-04-21)
 
 ### Bug Fixes
