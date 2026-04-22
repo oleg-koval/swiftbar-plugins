@@ -235,14 +235,48 @@ test_remote_plugin_version_uses_cached_command() {
 }
 
 test_print_process_list_preserves_full_command() {
+    USER="me"
     PROCESS_SNAPSHOT=$'USER PID %CPU %MEM VSZ RSS TT STAT STARTED TIME COMMAND\nme 123 50.0 1.0 0 0 ?? S 00:00.00 00:00.01 /Applications/Google Chrome.app/Contents/MacOS/Google Chrome --type=renderer --foo bar'
 
     local output
     output="$(print_process_list "--Top CPU" "3" "CPU" "3" "----")"
 
     assert_contains "$output" "Google Chrome (CPU 50.0%)" "process list"
-    assert_contains "$output" "PID: 123" "process list"
+    assert_contains "$output" "Copy PID: 123" "process list"
+    assert_contains "$output" "Stop Process" "process list"
     assert_not_contains "$output" "--type=renderer --foo bar" "process list"
+}
+
+test_copy_pid_writes_to_clipboard() {
+    local tmpdir bindir clipboard output old_path
+    tmpdir="$(mktemp -d "${TMPDIR:-/tmp}/swiftbar-copy-pid.XXXXXX")"
+    bindir="$tmpdir/bin"
+    clipboard="$tmpdir/clipboard.txt"
+    mkdir -p "$bindir"
+
+    cat >"$bindir/pbcopy" <<'EOF'
+#!/usr/bin/env bash
+cat >"$TEST_CLIPBOARD_TARGET"
+EOF
+    chmod +x "$bindir/pbcopy"
+
+    cat >"$bindir/osascript" <<'EOF'
+#!/usr/bin/env bash
+exit 0
+EOF
+    chmod +x "$bindir/osascript"
+
+    old_path="$PATH"
+    PATH="$bindir:$PATH"
+    export TEST_CLIPBOARD_TARGET="$clipboard"
+
+    output="$(copy_pid 123 2>&1)"
+
+    assert_equals "$output" "" "copy pid output"
+    assert_file_contains "$clipboard" "123" "clipboard contents"
+
+    PATH="$old_path"
+    rm -rf "$tmpdir"
 }
 
 test_print_high_cpu_processes_preserves_full_command() {
@@ -696,6 +730,7 @@ main() {
     test_hardware_name_uses_cached_command
     test_remote_plugin_version_uses_cached_command
     test_print_process_list_preserves_full_command
+    test_copy_pid_writes_to_clipboard
     test_print_high_cpu_processes_preserves_full_command
     test_print_energy_impact_preserves_full_command
     test_vpn_summary_handles_empty_service_list

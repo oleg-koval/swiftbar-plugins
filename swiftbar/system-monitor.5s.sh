@@ -1032,19 +1032,25 @@ print_process_list() {
     echo "$title"
     awk_script="$(process_awk_helpers)
 {
+    user = \$1
     pid = \$2
     metric = \$metric_index
     cmd = join_fields(11, NF)
     app_name = app_name_from_cmd(cmd)
 
     printf \"%s%s (%s %.1f%%) | font=Menlo size=11\\n\", indent, app_name, metric_label, metric
-    printf \"%s--PID: %s | font=Menlo size=10 color=gray\\n\", indent, pid
+    printf \"%s--Copy PID: %s | bash=\\\"%s\\\" param1=\\\"copy-pid\\\" param2=\\\"%s\\\" terminal=false refresh=false\\n\", indent, pid, plugin_path, pid
+    if (user == current_user) {
+        printf \"%s--Stop Process | bash=\\\"/bin/kill\\\" param1=\\\"%s\\\" terminal=false refresh=true color=red\\n\", indent, pid
+    } else {
+        printf \"%s--Protected system process | color=gray\\n\", indent
+    }
 }"
     printf '%s\n' "$PROCESS_SNAPSHOT" |
         tail -n +2 |
         sort -nrk "$sort_key" |
         head -6 |
-        awk -v metric_index="$metric_index" -v metric_label="$metric_label" -v indent="$indent" "$awk_script"
+        awk -v metric_index="$metric_index" -v metric_label="$metric_label" -v indent="$indent" -v plugin_path="$PLUGIN_PATH" -v current_user="$USER" "$awk_script"
 }
 
 print_high_cpu_processes() {
@@ -1627,6 +1633,28 @@ open_app() {
     /usr/bin/open -a "$1" >/dev/null 2>&1
 }
 
+copy_pid() {
+    local pid="${1:-}"
+
+    case "$pid" in
+        ''|*[!0-9]*)
+            printf 'Invalid PID: %s\n' "$pid" >&2
+            return 1
+            ;;
+    esac
+
+    if ! command_exists pbcopy; then
+        printf 'pbcopy is required to copy the PID.\n' >&2
+        return 1
+    fi
+
+    printf '%s' "$pid" | pbcopy
+
+    if command_exists osascript; then
+        osascript -e "display notification \"PID ${pid} copied to clipboard\" with title \"System Monitor\"" >/dev/null 2>&1 || true
+    fi
+}
+
 empty_trash() {
     /usr/bin/osascript -e 'tell application "Finder" to delete every item of trash' >/dev/null 2>&1
 }
@@ -1800,6 +1828,9 @@ main() {
             ;;
         diagnostic)
             copy_diagnostic_report
+            ;;
+        copy-pid)
+            copy_pid "${2:-}"
             ;;
         open-activity-monitor)
             open_app "Activity Monitor"
