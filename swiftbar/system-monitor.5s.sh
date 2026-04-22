@@ -472,6 +472,11 @@ function app_name_from_cmd(cmd,   cmd_path, parts, name) {
     if (length(name) > 40) name = substr(name, 1, 37) "..."
     return name
 }
+
+function sanitize_cmd(cmd) {
+    gsub(/\t/, " ", cmd)
+    return cmd
+}
 AWK
 }
 
@@ -1021,13 +1026,93 @@ truncate_label() {
     fi
 }
 
+process_learning_note() {
+    local app_name="$1"
+    local cmd="$2"
+    local lower
+
+    lower="$(printf '%s %s' "$app_name" "$cmd" | tr '[:upper:]' '[:lower:]')"
+
+    case "$lower" in
+        *windowserver*)
+            printf 'macOS compositor; spikes with redraws, external displays, or screen sharing.'
+            ;;
+        *kernel_task*)
+            printf 'Kernel thermal guard; high CPU can reflect heat throttling, not a user app.'
+            ;;
+        *mds_stores*|*mdworker_shared*|*mdworker*|*" mds "*)
+            printf 'Spotlight indexing; spikes after installs, file moves, or attaching drives.'
+            ;;
+        *backupd-helper*|*backupd*)
+            printf 'Time Machine backup helper; spikes during backups or local snapshots.'
+            ;;
+        *"--type=gpu-process"*|*"gpu)"*|*"helper (gpu"*)
+            printf 'GPU helper; spikes from video decode, WebGL, or accelerated rendering.'
+            ;;
+        *"--type=renderer"*|*"renderer)"*|*"webview helper"*|*"webview"*)
+            printf 'Renderer/web content process; spikes from heavy pages, calls, or extensions.'
+            ;;
+        *microsoft*teams*)
+            printf 'Teams web layer; spikes during calls, screen sharing, or animated chats.'
+            ;;
+        *cursor*helper*|*cursor*)
+            printf 'Cursor editor process; spikes from extensions, AI panes, or large workspaces.'
+            ;;
+        *google*chrome*|*chromium*)
+            printf 'Browser process; spikes from active tabs, video, extensions, or site scripts.'
+            ;;
+        top*)
+            printf 'Sampling command itself; can appear briefly because the plugin is collecting data.'
+            ;;
+        *node*)
+            printf 'Node.js runtime; often a dev server, build tool, watcher, or CLI task.'
+            ;;
+        *python*|*jupyter*)
+            printf 'Python runtime; often a script, notebook, data task, or background worker.'
+            ;;
+        *coreaudiod*)
+            printf 'macOS audio daemon; spikes with calls, device changes, or routing glitches.'
+            ;;
+        *cloudd*)
+            printf 'iCloud sync daemon; spikes when files or photos are syncing.'
+            ;;
+        *softwareupdated*)
+            printf 'macOS update service; spikes while checking, downloading, or preparing updates.'
+            ;;
+        *photoanalysisd*|*photolibraryd*)
+            printf 'Photos analysis/indexing; spikes during library scans or background ML work.'
+            ;;
+        *docker*|*orbstack*)
+            printf 'Container runtime work; spikes from builds, pulls, or active containers.'
+            ;;
+        *helper*)
+            printf 'Helper process for a parent app; usage usually follows that app''s active work.'
+            ;;
+        *)
+            printf ''
+            ;;
+    esac
+}
+
+print_process_learning_hint() {
+    local indent="$1"
+    local app_name="$2"
+    local cmd="$3"
+    local note
+
+    note="$(process_learning_note "$app_name" "$cmd")"
+    [ -n "$note" ] || return 0
+
+    printf '%s%s | font=Menlo size=10 color=gray\n' "$indent" "$(truncate_label "$note" 92)"
+}
+
 print_process_list() {
     local title="$1"
     local sort_key="$2"
     local metric_label="$3"
     local metric_index="$4"
     local indent="${5:---}"
-    local awk_script
+    local awk_script rows user pid metric app_name cmd
 
     echo "$title"
     awk_script="$(process_awk_helpers)
@@ -1035,26 +1120,32 @@ print_process_list() {
     user = \$1
     pid = \$2
     metric = \$metric_index
-    cmd = join_fields(11, NF)
+    cmd = sanitize_cmd(join_fields(11, NF))
     app_name = app_name_from_cmd(cmd)
-
-    printf \"%s%s (%s %.1f%%) | font=Menlo size=11\\n\", indent, app_name, metric_label, metric
-    printf \"%s--Copy PID: %s | bash=\\\"%s\\\" param1=\\\"copy-pid\\\" param2=\\\"%s\\\" terminal=false refresh=false\\n\", indent, pid, plugin_path, pid
-    if (user == current_user) {
-        printf \"%s--Stop Process | bash=\\\"/bin/kill\\\" param1=\\\"%s\\\" terminal=false refresh=true color=red\\n\", indent, pid
-    } else {
-        printf \"%s--Protected system process | color=gray\\n\", indent
-    }
+    printf \"%s\\t%s\\t%.1f\\t%s\\t%s\\n\", user, pid, metric, app_name, cmd
 }"
-    printf '%s\n' "$PROCESS_SNAPSHOT" |
+    rows="$(printf '%s\n' "$PROCESS_SNAPSHOT" |
         tail -n +2 |
         sort -nrk "$sort_key" |
         head -6 |
-        awk -v metric_index="$metric_index" -v metric_label="$metric_label" -v indent="$indent" -v plugin_path="$PLUGIN_PATH" -v current_user="$USER" "$awk_script"
+        awk -v metric_index="$metric_index" "$awk_script")"
+
+    [ -n "$rows" ] || return 0
+
+    while IFS=$'\t' read -r user pid metric app_name cmd; do
+        printf '%s%s (%s %.1f%%) | font=Menlo size=11\n' "$indent" "$app_name" "$metric_label" "$metric"
+        print_process_learning_hint "${indent}--" "$app_name" "$cmd"
+        printf '%s--Copy PID: %s | bash="%s" param1="copy-pid" param2="%s" terminal=false refresh=false\n' "$indent" "$pid" "$PLUGIN_PATH" "$pid"
+        if [ "$user" = "$USER" ]; then
+            printf '%s--Stop Process | bash="/bin/kill" param1="%s" terminal=false refresh=true color=red\n' "$indent" "$pid"
+        else
+            printf '%s--Protected system process | color=gray\n' "$indent"
+        fi
+    done <<< "$rows"
 }
 
 print_high_cpu_processes() {
-    local awk_script
+    local awk_script rows user pid cpu app_name cmd
 
     echo "Busy Apps"
     awk_script="$(process_awk_helpers)
@@ -1062,29 +1153,32 @@ NR > 1 && \$3 > threshold {
     user = \$1
     pid = \$2
     cpu = \$3
-    cmd = join_fields(11, NF)
+    cmd = sanitize_cmd(join_fields(11, NF))
     app_name = app_name_from_cmd(cmd)
-
-    printf \"--%s (%.1f%%) | color=red font=Menlo size=11\\n\", app_name, cpu
-    printf \"----PID: %s | font=Menlo size=10 color=gray\\n\", pid
-    if (user == current_user) {
-        printf \"----Process Actions\\n\"
-        printf \"------Stop Process | bash=\\\"/bin/kill\\\" param1=\\\"%s\\\" terminal=false refresh=true color=red\\n\", pid
-        printf \"------Potentially Disruptive\\n\"
-        printf \"--------Force Kill (Immediate) | bash=\\\"/bin/kill\\\" param1=\\\"-9\\\" param2=\\\"%s\\\" terminal=true refresh=true color=red\\n\", pid
-    } else {
-        printf \"----Protected system process | color=gray\\n\"
-        printf \"----Open Activity Monitor | bash=\\\"%s\\\" param1=\\\"open-activity-monitor\\\" terminal=false\\n\", plugin_path
-    }
-    found = 1
-}
-END {
-    if (!found) {
-        printf \"--No busy apps detected | color=green\\n\"
-    }
+    printf \"%s\\t%s\\t%.1f\\t%s\\t%s\\n\", user, pid, cpu, app_name, cmd
 }"
-    printf '%s\n' "$PROCESS_SNAPSHOT" |
-        awk -v threshold="$HIGH_CPU_THRESHOLD" -v plugin_path="$PLUGIN_PATH" -v current_user="$USER" "$awk_script"
+    rows="$(printf '%s\n' "$PROCESS_SNAPSHOT" |
+        awk -v threshold="$HIGH_CPU_THRESHOLD" "$awk_script")"
+
+    if [ -z "$rows" ]; then
+        echo "--No busy apps detected | color=green"
+        return 0
+    fi
+
+    while IFS=$'\t' read -r user pid cpu app_name cmd; do
+        printf -- '--%s (%.1f%%) | color=red font=Menlo size=11\n' "$app_name" "$cpu"
+        print_process_learning_hint "----" "$app_name" "$cmd"
+        printf -- '----PID: %s | font=Menlo size=10 color=gray\n' "$pid"
+        if [ "$user" = "$USER" ]; then
+            echo "----Process Actions"
+            printf -- '------Stop Process | bash="/bin/kill" param1="%s" terminal=false refresh=true color=red\n' "$pid"
+            echo "------Potentially Disruptive"
+            printf -- '--------Force Kill (Immediate) | bash="/bin/kill" param1="-9" param2="%s" terminal=true refresh=true color=red\n' "$pid"
+        else
+            echo "----Protected system process | color=gray"
+            printf -- '----Open Activity Monitor | bash="%s" param1="open-activity-monitor" terminal=false\n' "$PLUGIN_PATH"
+        fi
+    done <<< "$rows"
 }
 
 health_label() {

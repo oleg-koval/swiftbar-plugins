@@ -242,6 +242,7 @@ test_print_process_list_preserves_full_command() {
     output="$(print_process_list "--Top CPU" "3" "CPU" "3" "----")"
 
     assert_contains "$output" "Google Chrome (CPU 50.0%)" "process list"
+    assert_contains "$output" "Renderer/web content process" "process list"
     assert_contains "$output" "Copy PID: 123" "process list"
     assert_contains "$output" "Stop Process" "process list"
     assert_not_contains "$output" "--type=renderer --foo bar" "process list"
@@ -290,10 +291,12 @@ test_print_high_cpu_processes_preserves_full_command() {
     output="$(print_high_cpu_processes)"
 
     assert_contains "$output" "PID: 123" "busy apps"
+    assert_contains "$output" "Renderer/web content process" "busy apps"
     assert_contains "$output" "Process Actions" "busy apps"
     assert_contains "$output" "Stop Process" "busy apps"
     assert_contains "$output" "Potentially Disruptive" "busy apps"
     assert_contains "$output" "Force Kill (Immediate)" "busy apps"
+    assert_contains "$output" "Helper process for a parent app" "busy apps"
     assert_contains "$output" "Protected system process" "busy apps"
     assert_contains "$output" "PID: 456" "busy apps"
     assert_not_contains "$output" "--type=renderer --foo bar" "busy apps"
