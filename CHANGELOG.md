@@ -1,3 +1,9 @@
+## [1.4.0](https://github.com/oleg-koval/swiftbar-plugins/compare/v1.3.0...v1.4.0) (2026-04-22)
+
+### Features
+
+* **menu:** explain process resource spikes ([d5d7dec](https://github.com/oleg-koval/swiftbar-plugins/commit/d5d7dec900a4e8ceb92dca5e43cfc2318b026c8d))
+
 ## [1.3.0](https://github.com/oleg-koval/swiftbar-plugins/compare/v1.2.6...v1.3.0) (2026-04-22)
 
 ### Features
