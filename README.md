@@ -87,7 +87,7 @@ Why the `swiftbar/` subfolder:
 
 ## Update Path
 
-Use `Actions > About > Update from GitHub`.
+Use `About > Update from GitHub`.
 
 The plugin supports two installation modes:
 

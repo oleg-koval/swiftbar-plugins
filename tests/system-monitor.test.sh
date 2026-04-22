@@ -41,6 +41,27 @@ assert_not_contains() {
     esac
 }
 
+assert_before() {
+    local haystack="$1"
+    local first="$2"
+    local second="$3"
+    local context="${4:-output}"
+    local prefix_first prefix_second
+
+    prefix_first="${haystack%%"$first"*}"
+    prefix_second="${haystack%%"$second"*}"
+
+    if [ "$prefix_first" = "$haystack" ] || [ "$prefix_second" = "$haystack" ]; then
+        printf 'Expected %s to contain both markers:\n%s\n%s\n' "$context" "$first" "$second" >&2
+        exit 1
+    fi
+
+    if [ "${#prefix_first}" -ge "${#prefix_second}" ]; then
+        printf 'Expected %s to place:\n%s\nbefore:\n%s\n' "$context" "$first" "$second" >&2
+        exit 1
+    fi
+}
+
 assert_equals() {
     local actual="$1"
     local expected="$2"
@@ -438,6 +459,7 @@ test_print_safe_action_center_groups_disruptive_actions() {
     assert_contains "$output" "Update from GitHub" "action center"
     assert_contains "$output" "Empty Trash (Permanent)" "action center"
     assert_contains "$output" "Restart Spotlight Index (Rebuilds search index)" "action center"
+    assert_before "$output" "About" "Actions" "action center"
     assert_not_contains "$output" "Advanced" "action center"
 }
 

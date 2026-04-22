@@ -48,7 +48,7 @@ The `5s` in the filename tells SwiftBar to refresh the plugin every five seconds
 
 ## Updating
 
-Use `Actions > About > Update from GitHub`.
+Use `About > Update from GitHub`.
 
 `About` also shows:
 

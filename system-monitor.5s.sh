@@ -1599,8 +1599,14 @@ print_docker_section() {
 
 print_safe_action_center() {
     echo "---"
+    echo "About"
+    echo "--System Monitor v$PLUGIN_VERSION | color=gray"
+    print_plugin_update_notice
+    print_update_status_line
+    echo "----Update from GitHub | bash=\"$PLUGIN_PATH\" param1=\"update-from-github\" terminal=false refresh=false"
+    echo "--Repository: @$AUTHOR_GITHUB/swiftbar-plugins | href=\"$REPO_URL\""
+    echo "---"
     echo "Actions"
-    echo "--Version: $PLUGIN_VERSION | color=gray"
     echo "--Quick Actions"
     echo "----Open Activity Monitor | bash=\"$PLUGIN_PATH\" param1=\"open-activity-monitor\" terminal=false"
     echo "----Copy Diagnostic Report | bash=\"$PLUGIN_PATH\" param1=\"diagnostic\" terminal=false refresh=false"
@@ -1613,13 +1619,6 @@ print_safe_action_center() {
     if command_exists docker; then
         echo "----Prune Docker System (Removes unused images and volumes) | bash=\"$(command -v docker)\" param1=\"system\" param2=\"prune\" param3=\"-af\" param4=\"--volumes\" terminal=true refresh=true color=red"
     fi
-    echo "---"
-    echo "About"
-    echo "--System Monitor v$PLUGIN_VERSION | color=gray"
-    print_plugin_update_notice
-    print_update_status_line
-    echo "----Update from GitHub | bash=\"$PLUGIN_PATH\" param1=\"update-from-github\" terminal=false refresh=false"
-    echo "--Repository: @$AUTHOR_GITHUB/swiftbar-plugins | href=\"$REPO_URL\""
     echo "---"
     echo "Refresh | refresh=true"
 }
