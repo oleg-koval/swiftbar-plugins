@@ -11,6 +11,7 @@ if (!nextVersion) {
 
 const rootDir = process.cwd();
 const pluginPath = path.join(rootDir, "system-monitor.5s.sh");
+const swiftbarPluginPath = path.join(rootDir, "swiftbar", "system-monitor.5s.sh");
 const pluginSource = await readFile(pluginPath, "utf8");
 
 const updatedSource = pluginSource
@@ -26,3 +27,4 @@ if (updatedSource === pluginSource) {
 }
 
 await writeFile(pluginPath, updatedSource);
+await writeFile(swiftbarPluginPath, updatedSource);

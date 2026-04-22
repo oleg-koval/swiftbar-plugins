@@ -83,7 +83,7 @@ Why the `swiftbar/` subfolder:
 
 - SwiftBar scans plugin folders recursively and the folder picker warns on large working trees.
 - A development checkout often contains `node_modules`, build output, and docs that make the repo root noisy.
-- The [`swiftbar/`](/Users/olegkoval/projects/personal/active/swiftbar-plugins/swiftbar) folder contains only the plugin entrypoint, while self-update still targets the real repository checkout.
+- The [`swiftbar/`](/Users/olegkoval/projects/personal/active/swiftbar-plugins/swiftbar) folder contains a real standalone plugin file, while self-update still targets the real repository checkout.
 
 ## Update Path
 

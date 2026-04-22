@@ -33,7 +33,8 @@
       {
         "assets": [
           "CHANGELOG.md",
-          "system-monitor.5s.sh"
+          "system-monitor.5s.sh",
+          "swiftbar/system-monitor.5s.sh"
         ],
         "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
       }

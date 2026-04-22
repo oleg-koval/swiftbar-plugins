@@ -67,7 +67,7 @@ This repository already uses those patterns for:
 SwiftBar scans plugin folders aggressively and traverses nested folders. This repository uses a dedicated install-facing folder:
 
 - [`swiftbar/`](../swiftbar) contains the plugin entrypoint that SwiftBar should load
-- the symlink points back to [`system-monitor.5s.sh`](../system-monitor.5s.sh) so development still happens in one file
+- [`swiftbar/system-monitor.5s.sh`](../swiftbar/system-monitor.5s.sh) is a real tracked file, not a symlink, so SwiftBar does not follow it back into the repository tree
 - `official_checkout_dir()` resolves the git top-level from subfolders, so self-update still works from the `swiftbar/` install path
 
 The repo root still carries `.swiftbarignore` for defense in depth, but the recommended SwiftBar plugin folder is [`swiftbar/`](../swiftbar), not the repository root.

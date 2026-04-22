@@ -3,18 +3,26 @@ set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 PLUGIN="$ROOT_DIR/system-monitor.5s.sh"
+SWIFTBAR_PLUGIN="$ROOT_DIR/swiftbar/system-monitor.5s.sh"
 TESTS="$ROOT_DIR/tests/system-monitor.test.sh"
 VERIFY_SCRIPT="$ROOT_DIR/.repo/scripts/verify"
 OUTPUT_FILE="${TMPDIR:-/tmp}/swiftbar-system-monitor.verify.out"
 
 echo "==> Bash syntax"
 bash -n "$PLUGIN"
+bash -n "$SWIFTBAR_PLUGIN"
 bash -n "$TESTS"
 bash -n "$VERIFY_SCRIPT"
+
+if ! cmp -s "$PLUGIN" "$SWIFTBAR_PLUGIN"; then
+    echo "swiftbar/system-monitor.5s.sh is out of sync with system-monitor.5s.sh" >&2
+    exit 1
+fi
 
 if command -v shellcheck >/dev/null 2>&1; then
     echo "==> ShellCheck"
     shellcheck "$PLUGIN" "$VERIFY_SCRIPT"
+    shellcheck "$SWIFTBAR_PLUGIN"
     shellcheck -x -e SC1091,SC2034,SC2329 "$TESTS"
 else
     echo "==> ShellCheck skipped: command not found"
