@@ -2,33 +2,20 @@
 
 ## Supported Versions
 
-| Version | Supported |
-| --- | --- |
-| Latest release | Yes |
-| `main` branch | Yes |
-| Older releases | No |
+| Version        | Supported           |
+| -------------- | ------------------- |
+| Latest minor   | Yes                 |
+| Previous minor | Security fixes only |
+| Older          | No                  |
 
 ## Reporting a Vulnerability
 
-Do not open a public issue with exploit details.
+**Please do not open a public GitHub issue for security vulnerabilities.**
 
-Preferred path:
+Email **oleg@bizcuit.nl** with:
 
-1. Use GitHub private vulnerability reporting for this repository, if enabled.
-2. If private reporting is not available yet, contact the maintainer privately through GitHub before public disclosure.
+1. A description of the vulnerability and its potential impact
+2. Steps to reproduce or a proof-of-concept
+3. Any suggested fixes (optional but appreciated)
 
-Please include:
-
-- affected plugin version or commit
-- macOS and SwiftBar versions
-- reproduction steps
-- impact assessment
-- any proof-of-concept details needed to validate the issue
-
-## Response Targets
-
-- acknowledgement within 5 business days
-- status update after initial triage
-- coordinated fix and disclosure once a patch or mitigation is ready
-
-Public reports that include active exploit details may be edited, limited, or closed until a fix is available.
+You will receive an acknowledgement within 48 hours and a resolution timeline within 7 days.
